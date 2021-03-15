@@ -8,7 +8,8 @@ ApplicationWindow {
     visible: true
     title: qsTr("Wou")
 
-Table{
+    Table{
 
-}
+    }
+
 }
