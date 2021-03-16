@@ -13,7 +13,7 @@ int NotesModel::rowCount(const QModelIndex &parent) const
         return 0;
 
     // FIXME: Implement me!
-    return 1;
+    return 2;
 }
 
 QVariant NotesModel::data(const QModelIndex &index, int role) const
@@ -26,7 +26,7 @@ QVariant NotesModel::data(const QModelIndex &index, int role) const
     case Roles::id:
         return int(1);
     case Roles::description:
-        return QVariant(QStringLiteral("Good\nGood\nGood\nGood\nGood\n"));
+        return QVariant(QStringLiteral("Good\nGood\nGood\nGood\nGood"));
     }
     return QVariant();
 }

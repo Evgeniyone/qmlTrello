@@ -4,9 +4,11 @@ import QtQuick.Controls 2.15
 Rectangle{
     id: rectangle
     width: 250
-    height: 150
     color: "#ebecf0"
     radius: 10
+    property alias onHovered: onHovered
+    property alias dragArea: dragArea
+    property alias rectangle: rectangle
     property alias table: table
 
     Drag.active: dragArea.drag.active
@@ -30,13 +32,16 @@ Rectangle{
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: tableName.bottom
-        anchors.bottom: roundButton.top
+        anchors.bottom: onHovered.top
         anchors.rightMargin: 0
-        anchors.bottomMargin: 0
         anchors.leftMargin: 0
+        anchors.bottomMargin: 0
         anchors.topMargin: 0
         clip: true
 
+        ScrollBar.vertical: ScrollBar {
+            active: true
+        }
 
 
 
@@ -50,6 +55,7 @@ Rectangle{
         anchors.top: parent.top
         drag.target: rectangle
     }
+
     MouseArea{
         id:onHovered
         y: 82
@@ -90,6 +96,6 @@ Rectangle{
 
 /*##^##
 Designer {
-    D{i:0;formeditorColor:"#ffffff";formeditorZoom:1.100000023841858}D{i:2}
+    D{i:0;formeditorColor:"#ffffff";formeditorZoom:1.100000023841858}
 }
 ##^##*/
