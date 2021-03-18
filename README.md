@@ -1,0 +1,2 @@
+# qmlTrello
+Trello clone
