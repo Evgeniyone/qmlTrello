@@ -2,12 +2,18 @@
 #define NOTESMODEL_H
 
 #include <QAbstractListModel>
+#include <noteslist.h>
+
+class NotesList;
 
 class NotesModel : public QAbstractListModel
 {
     Q_OBJECT
 
+
+
 public:
+    Q_PROPERTY(NotesList *list READ list WRITE setList)
     explicit NotesModel(QObject *parent = nullptr);
     enum Roles{
         id,description
@@ -26,7 +32,11 @@ public:
 
     virtual QHash<int,QByteArray> roleNames() const override;
 
+    NotesList *list() const;
+    void setList(NotesList *list);
+
 private:
+    NotesList *mList;
 };
 
 #endif // NOTESMODEL_H

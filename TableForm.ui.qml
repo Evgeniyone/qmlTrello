@@ -6,6 +6,7 @@ Rectangle{
     width: 250
     color: "#ebecf0"
     radius: 10
+    property alias buttonAddNotes: buttonAddNotes
     property alias onHovered: onHovered
     property alias dragArea: dragArea
     property alias rectangle: rectangle
@@ -27,6 +28,7 @@ Rectangle{
     }
 
     ListView {
+
         id: table
         visible: true
         anchors.left: parent.left
@@ -75,7 +77,7 @@ Rectangle{
 
 
     RoundButton {
-        id: roundButton
+        id: buttonAddNotes
         x: 0
 
         y: 82
@@ -87,7 +89,7 @@ Rectangle{
         font.pointSize: 8
         background: Rectangle{
             color: "#d9dce2"
-            visible: onHovered.hovered || roundButton.hovered
+            visible: onHovered.hovered || buttonAddNotes.hovered
             radius: 20
         }
 

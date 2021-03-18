@@ -3,17 +3,28 @@
 NotesModel::NotesModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    mList=new NotesList();
+
+    connect(mList,&NotesList::preItemAppended,this,[=](){
+        const int index=mList->items().size();
+        beginInsertRows(QModelIndex(),index,index);
+    });
+    connect(mList,&NotesList::postItemAppended,this,[=](){
+        endInsertRows();
+    });
+
+
+
 }
 
 int NotesModel::rowCount(const QModelIndex &parent) const
 {
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
-    if (parent.isValid())
+
+    if (parent.isValid()|| !mList)
         return 0;
 
-    // FIXME: Implement me!
-    return 2;
+
+    return mList->items().size();
 }
 
 QVariant NotesModel::data(const QModelIndex &index, int role) const
@@ -21,25 +32,40 @@ QVariant NotesModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    NotesItem item=mList->items().at(index.row());
+
     switch (role) {
     case Roles::id:
-        return int(1);
+        return QVariant(item.id);
     case Roles::description:
-        return QVariant(QStringLiteral("Good\nGood\nGood\nGood\nGood"));
+        return QVariant(item.description);
     }
     return QVariant();
 }
 
 bool NotesModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (data(index, role) != value)
+    if (!mList)
     {
-        // FIXME: Implement me!
+        return false;
+    }
+
+    NotesItem item=mList->items().at(index.row());
+    switch (role) {
+    case Roles::id:
+        item.id= value.toInt();
+        break;
+
+    case Roles::description:
+        item.description=value.toString();
+        break;
+    }
+    if (mList->setItemAt(index.row(), item)) {
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
     return false;
+
 }
 
 Qt::ItemFlags NotesModel::flags(const QModelIndex &index) const
@@ -58,3 +84,28 @@ QHash<int, QByteArray> NotesModel::roleNames() const
     return names;
 
 }
+
+NotesList *NotesModel::list() const
+{
+    return mList;
+}
+
+void NotesModel::setList(NotesList *list)
+{
+    beginResetModel();
+    if(list)
+        mList->disconnect(this);
+    mList = list;
+
+    connect(mList,&NotesList::preItemAppended,this,[=](){
+        const int index=mList->items().size();
+        beginInsertRows(QModelIndex(),index,index);
+    });
+    connect(mList,&NotesList::postItemAppended,this,[=](){
+        endInsertRows();
+    });
+
+    endResetModel();
+}
+
+
