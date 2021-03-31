@@ -8,8 +8,8 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        noteslist.cpp \
-        notesmodel.cpp
+        notes_cpp/noteslist.cpp \
+        notes_cpp/notesmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -27,5 +27,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
-    noteslist.h \
-    notesmodel.h
+    notes_headers/noteslist.h \
+    notes_headers/notesmodel.h

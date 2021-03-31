@@ -1,7 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>Table.qml</file>
-        <file>TableForm.ui.qml</file>
+        <file>qml_sourse/LoginPage.qml</file>
+        <file>qml_sourse/LoginPageForm.ui.qml</file>
+        <file>qml_sourse/main.qml</file>
+        <file>qml_sourse/Table.qml</file>
+        <file>qml_sourse/TableForm.ui.qml</file>
+        <file>qml_sourse/TableWindow.qml</file>
+        <file>image/login_background.jpg</file>
     </qresource>
 </RCC>
