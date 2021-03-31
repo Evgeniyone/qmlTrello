@@ -8,8 +8,8 @@ TableForm {
 
     rectangle.height: {
         var a=table.contentHeight+dragArea.height+onHovered.height;
-        if (a>window.height)
-            return window.height;
+        if (a>table_window.height)
+            return table_window.height;
         else return a;
     }
 
