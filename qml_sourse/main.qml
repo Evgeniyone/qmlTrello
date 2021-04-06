@@ -21,6 +21,7 @@ ApplicationWindow {
             table_window.show()
         }
     }
+
     TableWindow{
         id: table_window
     }
