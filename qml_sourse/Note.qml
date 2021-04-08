@@ -12,17 +12,26 @@ Component {
         property bool held: false
         anchors { left: parent.left; right: parent.right }
         height: column.implicitHeight
-
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: held ? content : undefined
         drag.axis: Drag.YAxis
-        onPressed:    {held = true; column.visible=true;et.visible=false}
+        onPressed:    {held = true; /*column.visible=true;et.visible=false*/}
+        onClicked: {
+            if (mouse.button == Qt.RightButton)
+            {
+                column.visible=true;
+                et.visible=false
+            }
+        }
+
         onReleased: held = false
+
         Rectangle{
 
             id: content
-            border.width: 1
-            border.color: "lightsteelblue"
-            radius: 2
+            width: 200
+
+            radius: 3
             Drag.active: dragArea.held
             Drag.source: dragArea
             Drag.hotSpot.x: width / 2
@@ -31,8 +40,38 @@ Component {
             color: "white"
 
             anchors { left: parent.left; right: parent.right }
+            anchors.margins: 5
             height: column.implicitHeight
+            Text{
 
+                id: et
+                visible: true
+                anchors.fill: parent
+                font.pixelSize: 12
+                anchors { left: parent.left; right: parent.right }
+                anchors.topMargin: 5
+                anchors.leftMargin: 7
+
+                text: model.description
+            }
+
+            TextArea {
+                id: column
+                visible: false
+                anchors { left: parent.left; right: parent.right }
+                textFormat: Text.AutoText
+                //                anchors.margins: 5
+
+                text: model.description
+
+                onEditingFinished : {
+
+                    model.description = text
+                    et.text=text
+                    column.visible=false
+                    et.visible=true
+                }
+            }
 
             states: State {
                 when: dragArea.held
@@ -45,32 +84,32 @@ Component {
             }
 
         }
-        Text{
+        //        Text{
 
-            id: et
-            visible: true
-            anchors { left: parent.left; right: parent.right }
-            anchors.margins: 5
-            text: model.description
-        }
+        //            id: et
+        //            visible: true
+        //            anchors { left: parent.left; right: parent.right }
+        //            anchors.margins: 5
+        //            text: model.description
+        //        }
 
-        TextArea {
-            id: column
-            visible: false
-            anchors { left: parent.left; right: parent.right }
+        //        TextArea {
+        //            id: column
+        //            visible: false
+        //            anchors { left: parent.left; right: parent.right }
 
-            anchors.margins: 5
+        //            anchors.margins: 5
 
-            text: model.description
-            wrapMode: TextArea.Wrap
-            onEditingFinished : {
+        //            text: model.description
+        //            wrapMode: TextArea.Wrap
+        //            onEditingFinished : {
 
-                model.description = text
-                et.text=text
-                column.visible=false
-                et.visible=true
-            }
-        }
+        //                model.description = text
+        //                et.text=text
+        //                column.visible=false
+        //                et.visible=true
+        //            }
+        //        }
 
 
         DropArea {

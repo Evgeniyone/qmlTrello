@@ -40,7 +40,7 @@ Rectangle{
         anchors.bottomMargin: 0
         anchors.topMargin: 0
         clip: true
-        spacing: 7
+        spacing: 4
 
         ScrollBar.vertical: ScrollBar {
             active: true
