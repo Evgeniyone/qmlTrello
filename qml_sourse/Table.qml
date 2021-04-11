@@ -5,6 +5,10 @@ import QtQml.Models 2.3
 
 TableForm {
     id:root
+    roundButton.onClicked: {
+        httprequest.getHttpRequst()
+
+    }
 
 
     rectangle.height: {
@@ -18,23 +22,21 @@ TableForm {
     DelegateModel {
         id: visualModel
 
-        model: NotesModel {id:notes}
-        delegate: Note{} /*Note{}*/
+        model: NotesModel {
+            id:notes
+            list: notesList
+        }
+        delegate: Note{}
     }
 
-    //    table.model: NotesModel{
-    //        id:notes
-    //    }
 
-    //    table.delegate:Note{
-
-    //    }
     table.model: visualModel
 
     buttonAddNotes.onClicked: {
 
         table.positionViewAtEnd()
         notes.list.appendItem()
+
 
     }
 }

@@ -16,15 +16,18 @@ Component {
         drag.target: held ? content : undefined
         drag.axis: Drag.YAxis
         onPressed:    {held = true; /*column.visible=true;et.visible=false*/}
+
         onClicked: {
             if (mouse.button == Qt.RightButton)
             {
+
                 column.visible=true;
                 et.visible=false
             }
         }
 
         onReleased: held = false
+
 
         Rectangle{
 
@@ -42,6 +45,7 @@ Component {
             anchors { left: parent.left; right: parent.right }
             anchors.margins: 5
             height: column.implicitHeight
+
             Text{
 
                 id: et
@@ -70,6 +74,7 @@ Component {
                     et.text=text
                     column.visible=false
                     et.visible=true
+
                 }
             }
 
@@ -84,32 +89,6 @@ Component {
             }
 
         }
-        //        Text{
-
-        //            id: et
-        //            visible: true
-        //            anchors { left: parent.left; right: parent.right }
-        //            anchors.margins: 5
-        //            text: model.description
-        //        }
-
-        //        TextArea {
-        //            id: column
-        //            visible: false
-        //            anchors { left: parent.left; right: parent.right }
-
-        //            anchors.margins: 5
-
-        //            text: model.description
-        //            wrapMode: TextArea.Wrap
-        //            onEditingFinished : {
-
-        //                model.description = text
-        //                et.text=text
-        //                column.visible=false
-        //                et.visible=true
-        //            }
-        //        }
 
 
         DropArea {
@@ -120,7 +99,6 @@ Component {
                             drag.source.DelegateModel.itemsIndex,
                             dragArea.DelegateModel.itemsIndex)
             }
-
         }
     }
 
@@ -129,30 +107,4 @@ Component {
 }
 
 
-//Item{
 
-//    width: table.width
-//    height: textin.implicitHeight
-
-//    TextArea {
-//        id: textin
-//        anchors.fill: parent
-
-//        text: model.description
-//        wrapMode: TextArea.Wrap
-
-//        onEditingFinished : {
-//            model.description = text
-//        }
-
-//        background: Rectangle{
-//            color: "white"
-//            anchors.fill: parent
-//            radius: 5
-//            anchors.leftMargin: 10
-//            anchors.rightMargin: 10
-//            anchors.topMargin: 5
-//            anchors.bottomMargin: 5
-//        }
-//    }
-//}

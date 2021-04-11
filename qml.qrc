@@ -8,7 +8,5 @@
         <file>qml_sourse/TableWindow.qml</file>
         <file>image/login_background.jpg</file>
         <file>qml_sourse/Note.qml</file>
-        <file>qml_sourse/Note1.qml</file>
-        <file>qml_sourse/Note1Form.ui.qml</file>
     </qresource>
 </RCC>

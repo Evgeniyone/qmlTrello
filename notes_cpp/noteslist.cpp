@@ -3,7 +3,7 @@
 
 NotesList::NotesList(QObject *parent) : QObject(parent)
 {
-    mNotes.append({"qwe\nfwefwe\nwefwe",0});
+    mNotes.append({"qwe\nfwefwe\nwefwe",0,false});
 }
 
 
@@ -30,4 +30,12 @@ void NotesList::appendItem()
     item.id=1;  /*app.getID();*/
     mNotes.append(item);
     emit postItemAppended();
+}
+
+void NotesList::appendItem(NotesItem item)
+{
+    emit preItemAppended();
+    mNotes.append(item);
+    emit postItemAppended();
+
 }

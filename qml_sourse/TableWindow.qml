@@ -6,6 +6,7 @@ ApplicationWindow {
     title: qsTr("Your Table")
     width: Screen.width
     height: Screen.height
+
     Table{
 
     }

@@ -1,17 +1,17 @@
 #include "notes_headers/notesmodel.h"
 
 NotesModel::NotesModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : QAbstractListModel(parent),mList(nullptr)
 {
-    mList=new NotesList();
+//    mList=new NotesList();
 
-    connect(mList,&NotesList::preItemAppended,this,[=](){
-        const int index=mList->items().size();
-        beginInsertRows(QModelIndex(),index,index);
-    });
-    connect(mList,&NotesList::postItemAppended,this,[=](){
-        endInsertRows();
-    });
+//    connect(mList,&NotesList::preItemAppended,this,[=](){
+//        const int index=mList->items().size();
+//        beginInsertRows(QModelIndex(),index,index);
+//    });
+//    connect(mList,&NotesList::postItemAppended,this,[=](){
+//        endInsertRows();
+//    });
 
 
 
@@ -93,7 +93,7 @@ NotesList *NotesModel::list() const
 void NotesModel::setList(NotesList *list)
 {
     beginResetModel();
-    if(list)
+    if(mList)
         mList->disconnect(this);
     mList = list;
 

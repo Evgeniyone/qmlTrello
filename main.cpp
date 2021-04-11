@@ -4,6 +4,7 @@
 
 #include "notes_headers/noteslist.h"
 #include "notes_headers/notesmodel.h"
+#include "httprequest.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,10 +18,13 @@ int main(int argc, char *argv[])
                                           QStringLiteral("NotesList should not be created in QML"));
 
 
-    //NotesList notesList;
+    NotesList notesList;
+    HttpRequest request(&notesList);
+
 
     QQmlApplicationEngine engine;
-    //    engine.rootContext()->setContextProperty(QStringLiteral("notesList"),&notesList);
+        engine.rootContext()->setContextProperty(QStringLiteral("notesList"),&notesList);
+        engine.rootContext()->setContextProperty(QStringLiteral("httprequest"),&request);
 
 
     const QUrl url(QStringLiteral("qrc:/qml_sourse/main.qml"));

@@ -8,6 +8,7 @@ struct NotesItem{
 
     QString description;
     int id;
+    bool sinchronize;
 };
 
 class NotesList : public QObject
@@ -24,6 +25,7 @@ signals:
     void postItemAppended();
 public slots:
     void appendItem();
+    void appendItem(NotesItem item);
 
 
 private:

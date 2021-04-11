@@ -6,6 +6,7 @@ Rectangle{
     width: 250
     color: "#ebecf0"
     radius: 10
+    property alias roundButton: roundButton
     property alias buttonAddNotes: buttonAddNotes
     property alias onHovered: onHovered
     property alias dragArea: dragArea
@@ -17,12 +18,14 @@ Rectangle{
     Drag.hotSpot.y: 10
     Text {
         id: tableName
+        height: 25
         text: qsTr("Text")
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
         font.pixelSize: 12
         horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
         anchors.rightMargin: 0
         anchors.leftMargin: 0
     }
@@ -38,7 +41,7 @@ Rectangle{
         anchors.rightMargin: 0
         anchors.leftMargin: 0
         anchors.bottomMargin: 0
-        anchors.topMargin: 0
+        anchors.topMargin: 14
         clip: true
         spacing: 4
 
@@ -52,10 +55,11 @@ Rectangle{
 
     MouseArea {
         id: dragArea
-        height: 17
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
+        anchors.bottom: table.top
+        anchors.bottomMargin: 0
         drag.target: rectangle
     }
 
@@ -95,10 +99,22 @@ Rectangle{
         }
 
     }
+
+    RoundButton {
+        id: roundButton
+        x: 210
+        y: 0
+        width: 20
+        height: 20
+        text: "+"
+        anchors.verticalCenter: tableName.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+    }
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorColor:"#ffffff";formeditorZoom:1.100000023841858}
+    D{i:0;formeditorColor:"#ffffff";formeditorZoom:1.75}D{i:4}D{i:8}
 }
 ##^##*/
