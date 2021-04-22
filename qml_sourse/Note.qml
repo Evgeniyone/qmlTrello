@@ -11,28 +11,27 @@ Component {
 
         property bool held: false
         anchors { left: parent.left; right: parent.right }
-        height: column.implicitHeight
+        height: textAreaNote.implicitHeight
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: held ? content : undefined
         drag.axis: Drag.YAxis
-        onPressed:    {held = true; /*column.visible=true;et.visible=false*/}
+        onPressed: held = true
 
         onClicked: {
             if (mouse.button == Qt.RightButton)
             {
-
-                column.visible=true;
-                et.visible=false
+                textAreaNote.visible=true;
+                textNote.visible=false
             }
         }
 
         onReleased: held = false
 
-
         Rectangle{
 
             id: content
             width: 200
+            height: textAreaNote.implicitHeight
 
             radius: 3
             Drag.active: dragArea.held
@@ -44,11 +43,10 @@ Component {
 
             anchors { left: parent.left; right: parent.right }
             anchors.margins: 5
-            height: column.implicitHeight
 
             Text{
 
-                id: et
+                id: textNote
                 visible: true
                 anchors.fill: parent
                 font.pixelSize: 12
@@ -60,20 +58,20 @@ Component {
             }
 
             TextArea {
-                id: column
+                id: textAreaNote
                 visible: false
                 anchors { left: parent.left; right: parent.right }
                 textFormat: Text.AutoText
-                //                anchors.margins: 5
+
 
                 text: model.description
 
                 onEditingFinished : {
 
                     model.description = text
-                    et.text=text
-                    column.visible=false
-                    et.visible=true
+                    textNote.text=text
+                    textAreaNote.visible=false
+                    textNote.visible=true
 
                 }
             }
@@ -101,9 +99,6 @@ Component {
             }
         }
     }
-
-
-
 }
 
 
