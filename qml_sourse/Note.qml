@@ -5,10 +5,13 @@ import QtQml.Models 2.3
 
 
 Component {
-    id: dragDelegate
-
+//    id:myNote
+//    height: texted.implicitHeight
+//    width: 200
+//    color: "white"
     MouseArea {
         id: dragArea
+
         function createObjecto()
         {
             var componento = Qt.createComponent("qrc:/qml_sourse/contexNoteMenu.qml")
@@ -29,18 +32,19 @@ Component {
         onClicked: {
             if (mouse.button == Qt.RightButton)
             {
-//                text_area.visible=true;
-//                texted.visible=false
-//                createObjecto();
+
                 popup.x=content.x
+                popup.texti=texted.text
                 popup.open()
-                texted.text=popup.texti
-//                text_area.selectAll()
+//                texted.text=myTable.noteText
+
+
 
 
 
             }
         }
+
 
         onReleased: held = false
 
@@ -64,38 +68,36 @@ Component {
 
                 id: texted
                 visible: true
-                anchors.fill: parent
+                //                anchors.fill: parent
                 font.pixelSize: 12
                 anchors { left: parent.left; right: parent.right }
-                anchors.topMargin: 5
-                anchors.leftMargin: 7
-                anchors.bottomMargin: 10
 
                 text: model.description
+                onFocusChanged: model.description = text
             }
 
-//            TextArea {
-//                id: text_area
-//                visible: false
-//                anchors { left: parent.left; right: parent.right }
-//                textFormat: Text.AutoText
-//                selectionColor: "#ffb7b7"
-//                text: model.description
+            //            TextArea {
+            //                id: text_area
+            //                visible: false
+            //                anchors { left: parent.left; right: parent.right }
+            //                textFormat: Text.AutoText
+            //                selectionColor: "#ffb7b7"
+            //                text: model.description
 
-//                onEditingFinished : {
+            //                onEditingFinished : {
 
-//                    model.description = text
-//                    texted.text=text
-//                    text_area.visible=false
-//                    texted.visible=true
+            //                    model.description = text
+            //                    texted.text=text
+            //                    text_area.visible=false
+            //                    texted.visible=true
 
-//                }
-//            }
+            //                }
+            //            }
 
             states: State {
                 when: dragArea.held
 
-                ParentChange { target: content; parent: root }
+                ParentChange { target: content; parent: myTable }
                 AnchorChanges {
                     target: content
                     anchors { horizontalCenter: undefined; verticalCenter: undefined }

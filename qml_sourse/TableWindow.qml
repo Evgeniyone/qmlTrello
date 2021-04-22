@@ -25,31 +25,39 @@ ApplicationWindow {
     Popup {
         id: popup
         //        x: 100
+
         y: 100
         width: 200
         height: 300
         modal: true
         focus: true
-        property string texti: text_area1.text
+        property string texti
+
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
         ColumnLayout{
             TextArea {
                 id: text_area1
                 visible: true
-                anchors { left: parent.left; right: parent.right }
+                width: 100
+//                anchors { left: parent.left; right: parent.right }
                 textFormat: Text.AutoText
                 selectionColor: "#ffb7b7"
-                text: "model.description"
+                text: popup.texti
                 background: Rectangle{
-                    color: "black"
+                    color: "white"
                 }
 
 
             }
             Button{
-                onClicked: {text_area1.focus=false
+                onClicked: {
+                    text_area1.focus=false
                     popup.texti = text_area1.text
-                popup.close()}
+                    popup.close()
+//                    myTable.noteText=popup.texti
+
+                }
             }
         }
 
@@ -59,6 +67,6 @@ ApplicationWindow {
 
     }
     Table{
-
+        id: myTable
     }
 }

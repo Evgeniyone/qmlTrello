@@ -5,7 +5,7 @@ import QtQml.Models 2.3
 
 TableForm {
 
-    id:root
+//    property string noteText: ""
 
     roundButton.onClicked: {
         httprequest.getHttpRequst()
@@ -27,8 +27,11 @@ TableForm {
             id:notes
             list: notesList
         }
-        delegate: Note{}
+        delegate: Note{
+//            id: myNote
+        }
     }
+
 
 
     table.model: visualModel
@@ -37,8 +40,6 @@ TableForm {
 
         table.positionViewAtEnd()
         notes.list.appendItem()
-
-
     }
 }
 
