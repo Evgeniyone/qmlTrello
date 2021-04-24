@@ -43,7 +43,7 @@ Rectangle{
         anchors.bottomMargin: 0
         anchors.topMargin: 14
         clip: true
-        spacing: 4
+        spacing: 10
 
         ScrollBar.vertical: ScrollBar {
             active: true
@@ -91,7 +91,7 @@ Rectangle{
         text: "+ Добавить новую карточку"
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        font.pointSize: 8
+        font.pointSize: 10
         background: Rectangle{
             color: "#d9dce2"
             visible: onHovered.hovered || buttonAddNotes.hovered
@@ -115,6 +115,6 @@ Rectangle{
 
 /*##^##
 Designer {
-    D{i:0;formeditorColor:"#ffffff";formeditorZoom:1.75}D{i:4}D{i:8}
+    D{i:0;formeditorColor:"#ffffff";formeditorZoom:1.75}
 }
 ##^##*/

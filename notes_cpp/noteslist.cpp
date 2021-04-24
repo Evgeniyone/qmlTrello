@@ -3,7 +3,7 @@
 
 NotesList::NotesList(QObject *parent) : QObject(parent)
 {
-    mNotes.append({"qwe\nfwefwe\nwefwe",0,false});
+    mNotes.append({"",0,false});
 }
 
 

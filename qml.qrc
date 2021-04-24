@@ -8,5 +8,6 @@
         <file>qml_sourse/TableWindow.qml</file>
         <file>image/login_background.jpg</file>
         <file>qml_sourse/Note.qml</file>
+        <file>qml_sourse/PopupNoteMenu.qml</file>
     </qresource>
 </RCC>

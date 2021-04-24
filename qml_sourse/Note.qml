@@ -10,18 +10,34 @@ Component {
         id: dragArea
 
         property bool held: false
+
         anchors { left: parent.left; right: parent.right }
-        height: textAreaNote.implicitHeight
+        height: content.height
+
         acceptedButtons: Qt.LeftButton | Qt.RightButton
+
         drag.target: held ? content : undefined
         drag.axis: Drag.YAxis
         onPressed: held = true
 
+        function setNoteText(message){
+            textNote.text=message
+        }
+
+        function createObjecto()
+        {
+            var componento = Qt.createComponent("qrc:/qml_sourse/PopupNoteMenu.qml")
+            var sprite = componento.createObject(table_window,{x:width+20,y:DelegateModel.itemsIndex*content.height});
+
+            sprite.open()
+            sprite.noteText = textNote.text
+            sprite.edFinish.connect(setNoteText)
+
+        }
         onClicked: {
             if (mouse.button == Qt.RightButton)
             {
-                textAreaNote.visible=true;
-                textNote.visible=false
+                createObjecto()
             }
         }
 
@@ -31,7 +47,7 @@ Component {
 
             id: content
             width: 200
-            height: textAreaNote.implicitHeight
+            height:50
 
             radius: 3
             Drag.active: dragArea.held
@@ -48,33 +64,20 @@ Component {
 
                 id: textNote
                 visible: true
-                anchors.fill: parent
+
+                //                anchors.fill: parent
                 font.pixelSize: 12
                 anchors { left: parent.left; right: parent.right }
                 anchors.topMargin: 5
                 anchors.leftMargin: 7
-
+                anchors.bottomMargin: 5
                 text: model.description
-            }
-
-            TextArea {
-                id: textAreaNote
-                visible: false
-                anchors { left: parent.left; right: parent.right }
-                textFormat: Text.AutoText
-
-
-                text: model.description
-
-                onEditingFinished : {
-
-                    model.description = text
-                    textNote.text=text
-                    textAreaNote.visible=false
-                    textNote.visible=true
-
+                onContentHeightChanged: {
+                    if(textNote.contentHeight>50)
+                        content.height=textNote.contentHeight
                 }
             }
+
 
             states: State {
                 when: dragArea.held
