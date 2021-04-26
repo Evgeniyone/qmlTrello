@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.0
 Item {
     id: login_page
     property alias roundButton: roundButton
+    property alias login_input: login_input
+    property alias password_input: password_input
 
     Image {
         id: login_background

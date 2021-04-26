@@ -16,10 +16,7 @@ ApplicationWindow {
 
     LoginPage{
         anchors.fill: parent
-        roundButton.onClicked: {
-            window.close()
-            table_window.show()
-        }
+
     }
 
     TableWindow{
