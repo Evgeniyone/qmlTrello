@@ -59,7 +59,6 @@ Rectangle{
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: table.top
-        anchors.bottomMargin: 0
         drag.target: rectangle
     }
 
@@ -70,9 +69,7 @@ Rectangle{
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.rightMargin: 0
-        anchors.leftMargin: 0
-        anchors.bottomMargin: 0
+
         hoverEnabled: true
         property bool hovered: false
         onEntered: hovered = true
@@ -115,6 +112,6 @@ Rectangle{
 
 /*##^##
 Designer {
-    D{i:0;formeditorColor:"#ffffff";formeditorZoom:1.75}
+    D{i:0;formeditorColor:"#ffffff";formeditorZoom:1.75}D{i:5}
 }
 ##^##*/

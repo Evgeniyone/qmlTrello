@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQml.Models 2.3
-
+import QtQuick.Window 2.3
 
 Component {
     id: dragDelegate
@@ -26,11 +26,11 @@ Component {
 
         function createObjecto()
         {
-            var componento = Qt.createComponent("qrc:/qml_sourse/PopupNoteMenu.qml")
-            var sprite = componento.createObject(table_window,{x:width+20,y:DelegateModel.itemsIndex*content.height});
+            var componento = Qt.createComponent("qrc:/qml_sourse/Ppoup.qml")
+            var sprite = componento.createObject(table_window);
 
             sprite.open()
-            sprite.noteText = textNote.text
+            sprite.myNoteText.text = textNote.text
             sprite.edFinish.connect(setNoteText)
 
         }
@@ -64,8 +64,6 @@ Component {
 
                 id: textNote
                 visible: true
-
-                //                anchors.fill: parent
                 font.pixelSize: 12
                 anchors { left: parent.left; right: parent.right }
                 anchors.topMargin: 5
@@ -77,7 +75,6 @@ Component {
                         content.height=textNote.contentHeight
                 }
             }
-
 
             states: State {
                 when: dragArea.held

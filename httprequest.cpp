@@ -4,8 +4,10 @@
 #include <QtNetwork>
 #include <QDebug>
 
+
 HttpRequest::HttpRequest(QObject *parent) : QObject(parent)
 {
+
 
 }
 
