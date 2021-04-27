@@ -26,6 +26,7 @@ TableForm {
             id:notes
             list: notesList
         }
+
         delegate: Note{}
     }
 

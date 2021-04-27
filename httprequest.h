@@ -1,7 +1,8 @@
 #ifndef HTTPREQUEST_H
 #define HTTPREQUEST_H
 
-#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QtNetwork>
 #include <QObject>
 #include "notes_headers/noteslist.h"
 
@@ -12,9 +13,13 @@ private:
 
     NotesList *notes;
     QString m_token;
+    QUrl url;
 public:
+
     Q_PROPERTY(NotesList *list READ list)
     Q_INVOKABLE void getHttpRequst();
+    Q_INVOKABLE void autorization(QString login,QString password);
+    Q_INVOKABLE void sendNote(int index);
 
     explicit HttpRequest(QObject *parent = nullptr);
     explicit HttpRequest(NotesList *list);
@@ -22,16 +27,16 @@ public:
     NotesList *list() const;
 
 
-    Q_INVOKABLE void autorization(QString login,QString password);
-    Q_INVOKABLE void sendNote(QString noteText);
+
     QString getToken() const;
 
 private slots:
     void slotFinished(QNetworkReply*);
-    void autoriseFinished(QNetworkReply*);
+    void slotAutoriseFinished(QNetworkReply*);
     void sendNoteFinished(QNetworkReply*);
-signals:
 
+signals:
+//    void authorisationFinished(QNetworkReply*,NotesItem*);
 };
 
 #endif // HTTPREQUEST_H

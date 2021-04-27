@@ -35,6 +35,7 @@ public:
     NotesList *list() const;
     void setList(NotesList *list);
 
+//    Q_INVOKABLE void swapData(int _from, int _to); дописать
 private:
     NotesList *mList;
 };

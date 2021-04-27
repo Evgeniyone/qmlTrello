@@ -22,10 +22,12 @@ Component {
 
         function setNoteText(message){
             textNote.text=message
+            model.description=textNote.text
         }
 
         function createObjecto()
         {
+
             var componento = Qt.createComponent("qrc:/qml_sourse/Ppoup.qml")
             var sprite = componento.createObject(table_window);
 

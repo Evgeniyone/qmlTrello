@@ -3,12 +3,19 @@
 
 #include <QObject>
 #include <QVector>
+enum Status{
+    Sended,
+    Deleted,
+    Created
 
+};
 struct NotesItem{
 
     QString description;
     int id;
     bool sinchronize;
+    int status;
+
 };
 
 class NotesList : public QObject
@@ -17,7 +24,7 @@ class NotesList : public QObject
 public:
     explicit NotesList(QObject *parent = nullptr);
     //explicit NotesList(NotesItem &item);
-    QVector<NotesItem> items() const;
+    QVector<NotesItem>* items();
     bool setItemAt(int index,const NotesItem &Item);
 
 signals:
@@ -30,7 +37,7 @@ public slots:
 
 private:
 
-    QVector <NotesItem> mNotes;
+    QVector <NotesItem> *mNotes;
 };
 
 #endif // NOTES_H

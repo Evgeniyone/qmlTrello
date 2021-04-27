@@ -24,7 +24,7 @@ int NotesModel::rowCount(const QModelIndex &parent) const
         return 0;
 
 
-    return mList->items().size();
+    return mList->items()->size();
 }
 
 QVariant NotesModel::data(const QModelIndex &index, int role) const
@@ -32,7 +32,7 @@ QVariant NotesModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    NotesItem item=mList->items().at(index.row());
+    NotesItem item=mList->items()->at(index.row());
 
     switch (role) {
     case Roles::id:
@@ -50,7 +50,7 @@ bool NotesModel::setData(const QModelIndex &index, const QVariant &value, int ro
         return false;
     }
 
-    NotesItem item=mList->items().at(index.row());
+    NotesItem item=mList->items()->at(index.row());
     switch (role) {
     case Roles::id:
         item.id= value.toInt();
@@ -98,7 +98,7 @@ void NotesModel::setList(NotesList *list)
     mList = list;
 
     connect(mList,&NotesList::preItemAppended,this,[=](){
-        const int index=mList->items().size();
+        const int index=mList->items()->size();
         beginInsertRows(QModelIndex(),index,index);
     });
     connect(mList,&NotesList::postItemAppended,this,[=](){
@@ -107,5 +107,13 @@ void NotesModel::setList(NotesList *list)
 
     endResetModel();
 }
-
+//void NotesModel::swapData(int _from, int _to)
+//{
+//    qDebug() << _from << _to << endl;
+//    if(_from != _to){
+//        beginMoveRows(QModelIndex(), _from, _from, QModelIndex(), _to);
+//        m_List.move(_from, _to);
+//        endMoveRows();
+//    }
+//}
 

@@ -7,8 +7,9 @@ PpoupForm {
     saveButton.onClicked: {
 
         popup.edFinish(myNoteText.text)
-        httprequest.sendNote(myNoteText.text)
+        httprequest.sendNote(model.index)
         popup.close()
+
 
     }
 

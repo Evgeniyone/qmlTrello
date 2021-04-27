@@ -3,17 +3,18 @@
 #include <QNetworkRequest>
 #include <QtNetwork>
 #include <QDebug>
+#include <algorithm>
 
 
 HttpRequest::HttpRequest(QObject *parent) : QObject(parent)
 {
 
-
+    
 }
 
 HttpRequest::HttpRequest(NotesList *nlist):notes(nlist)
 {
-
+    url="http://192.168.31.104:8080/";
 }
 
 NotesList *HttpRequest::list() const
@@ -21,40 +22,71 @@ NotesList *HttpRequest::list() const
     return notes;
 }
 
-void HttpRequest::sendNote(QString noteText)
+void HttpRequest::sendNote(int index)
 {
     QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
-    QNetworkRequest request(QUrl("http://192.168.31.104:8080/cards"));
-
+    QNetworkRequest request(QUrl(url.toString()+"cards"));
+    
     connect(
                 accessManager,
                 SIGNAL(finished(QNetworkReply*)),
                 this,
                 SLOT(sendNoteFinished(QNetworkReply*))
                 );
-
+    
     QJsonObject auref;
-    auref["name"]=noteText;
+    NotesItem *item=&(*notes->items())[index];
+
+    auref["name"]=item->description;
     auref["numberOfList"]=1;
     auref["pos"]=1;
-
+    
     request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
     request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
     QJsonDocument doc(auref);
     QByteArray data = doc.toJson();
-    accessManager->post(request,data);
+    if(item->status==Status::Created)
+    {
+        accessManager->post(request,data);
+
+        item->status=Status::Sended;
+
+    }
+    else
+    {
+
+        QString m=url.toString()+"cards/"+QString::number(item->id);
+        qDebug()<<m;
+        QNetworkRequest request(QUrl(m.toUtf8()));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+        request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
+        QJsonObject auref;
+        auref["name"]=item->description;
+        QJsonDocument doc(auref);
+        QByteArray data = doc.toJson();
+        accessManager->put(request,data);
+    }
 }
+
+void HttpRequest::sendNoteFinished(QNetworkReply *reply)
+{
+    QByteArray data= reply->readAll();
+
+}
+
+
 
 void HttpRequest::autorization(QString login,QString password)
 {
     QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
-    QNetworkRequest request(QUrl("http://192.168.31.104:8080/login"));
+    QNetworkRequest request(QUrl(url.toString()+"login"));
+
 
     connect(
                 accessManager,
                 SIGNAL(finished(QNetworkReply*)),
                 this,
-                SLOT(autoriseFinished(QNetworkReply*))
+                SLOT(slotAutoriseFinished(QNetworkReply*))
                 );
 
     QJsonObject auref;
@@ -64,14 +96,17 @@ void HttpRequest::autorization(QString login,QString password)
     QJsonDocument doc(auref);
     QByteArray data = doc.toJson();
     accessManager->post(request,data);
+
 }
 
-
-
-QString HttpRequest::getToken() const
+void HttpRequest::slotAutoriseFinished(QNetworkReply *reply)
 {
-    return m_token;
+    m_token=reply->rawHeader(QByteArray("Authorization"));
+    getHttpRequst();
 }
+
+
+
 
 void HttpRequest::getHttpRequst()
 {
@@ -82,7 +117,7 @@ void HttpRequest::getHttpRequst()
                 this,
                 SLOT(slotFinished(QNetworkReply*))
                 );
-    QNetworkRequest request(QUrl("http://192.168.31.104:8080/cards"));
+    QNetworkRequest request(QUrl(url.toString()+"cards"));
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
     request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
@@ -106,13 +141,11 @@ void HttpRequest::slotFinished(QNetworkReply *reply)
 
 }
 
-void HttpRequest::autoriseFinished(QNetworkReply *reply)
+QString HttpRequest::getToken() const
 {
-    m_token=reply->rawHeader(QByteArray("Authorization"));
+    return m_token;
 }
 
-void HttpRequest::sendNoteFinished(QNetworkReply *)
-{
 
-}
+
 
