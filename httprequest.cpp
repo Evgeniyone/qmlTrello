@@ -8,13 +8,14 @@
 
 HttpRequest::HttpRequest(QObject *parent) : QObject(parent)
 {
-
+    timestamp=0;
     
 }
 
 HttpRequest::HttpRequest(NotesList *nlist):notes(nlist)
 {
     url="http://192.168.31.104:8080/";
+    timestamp=0;
 }
 
 NotesList *HttpRequest::list() const
@@ -27,15 +28,19 @@ void HttpRequest::sendNote(int index)
     QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
     QNetworkRequest request(QUrl(url.toString()+"cards"));
     
-    connect(
-                accessManager,
-                SIGNAL(finished(QNetworkReply*)),
-                this,
-                SLOT(sendNoteFinished(QNetworkReply*))
-                );
+    //    connect(
+    //                accessManager,
+    //                SIGNAL(finished(QNetworkReply*)),
+    //                this,
+    //                SLOT(sendNoteFinished(QNetworkReply*))
+    //                );
     
     QJsonObject auref;
     NotesItem *item=&(*notes->items())[index];
+    connect(accessManager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply)
+    {
+        sendNoteFinished(reply,item);
+    });
 
     auref["name"]=item->description;
     auref["numberOfList"]=1;
@@ -68,10 +73,64 @@ void HttpRequest::sendNote(int index)
     }
 }
 
-void HttpRequest::sendNoteFinished(QNetworkReply *reply)
+void HttpRequest::sinchronize()
+{
+    QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
+    QNetworkRequest request(QUrl(url.toString()+"cards/"+"sinch?timestamp="+QString::number(timestamp)));
+    connect(
+                accessManager,
+                SIGNAL(finished(QNetworkReply*)),
+                this,
+                SLOT(sinchronizeFinished(QNetworkReply*))
+                );
+    request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
+    accessManager->get(request);
+
+}
+
+void HttpRequest::sendNoteFinished(QNetworkReply *reply,NotesItem*item)
 {
     QByteArray data= reply->readAll();
+    item->id=data.toInt();
+    qDebug()<<item->id;
 
+}
+
+void HttpRequest::sinchronizeFinished(QNetworkReply *reply)
+{
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+    QJsonArray array=document.array();
+    reply->rawHeader(QByteArray("Authorization"));
+
+    auto first=notes->items()->begin();
+    auto end = notes->items()->end();
+    for(auto note:array){
+        NotesItem item;
+        QJsonObject subtree = note.toObject();
+        item.description=subtree.value("name").toString();
+        item.id=subtree.value("id").toInt();
+        QString status=subtree.value("status").toString();
+        auto finded_node=std::find_if
+                (first, end, [=](NotesItem n_item)
+        {
+            return (item.id==n_item.id?true:false);
+
+        });
+        if (finded_node==end && status!="DELETED")
+                    notes->appendItem(item);
+        if (finded_node!=end && status!="DELETED")
+            finded_node->description=item.description;
+
+
+        if(status=="DELETED" && finded_node!=end)
+        {
+            qDebug()<<finded_node->id;
+            notes->items()->erase(finded_node);
+
+
+        }
+    }
+    timestamp=QDateTime::currentMSecsSinceEpoch();
 }
 
 
@@ -145,6 +204,7 @@ QString HttpRequest::getToken() const
 {
     return m_token;
 }
+
 
 
 

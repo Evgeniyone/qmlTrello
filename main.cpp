@@ -5,6 +5,7 @@
 #include "notes_headers/noteslist.h"
 #include "notes_headers/notesmodel.h"
 #include "httprequest.h"
+#include<vector>
 
 int main(int argc, char *argv[])
 {
@@ -22,9 +23,10 @@ int main(int argc, char *argv[])
     HttpRequest request(&notesList);
 
 
+
     QQmlApplicationEngine engine;
-        engine.rootContext()->setContextProperty(QStringLiteral("notesList"),&notesList);
-        engine.rootContext()->setContextProperty(QStringLiteral("httprequest"),&request);
+    engine.rootContext()->setContextProperty(QStringLiteral("notesList"),&notesList);
+    engine.rootContext()->setContextProperty(QStringLiteral("httprequest"),&request);
 
 
     const QUrl url(QStringLiteral("qrc:/qml_sourse/main.qml"));

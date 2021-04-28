@@ -6,7 +6,7 @@ import QtQml.Models 2.3
 TableForm {
     id:root
     roundButton.onClicked: {
-        httprequest.getHttpRequst()
+        httprequest.sinchronize()
 
     }
 
