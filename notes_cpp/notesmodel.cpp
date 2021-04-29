@@ -3,17 +3,6 @@
 NotesModel::NotesModel(QObject *parent)
     : QAbstractListModel(parent),mList(nullptr)
 {
-//    mList=new NotesList();
-
-//    connect(mList,&NotesList::preItemAppended,this,[=](){
-//        const int index=mList->items().size();
-//        beginInsertRows(QModelIndex(),index,index);
-//    });
-//    connect(mList,&NotesList::postItemAppended,this,[=](){
-//        endInsertRows();
-//    });
-
-
 
 }
 
@@ -22,7 +11,6 @@ int NotesModel::rowCount(const QModelIndex &parent) const
 
     if (parent.isValid()|| !mList)
         return 0;
-
 
     return mList->items()->size();
 }
@@ -104,9 +92,25 @@ void NotesModel::setList(NotesList *list)
     connect(mList,&NotesList::postItemAppended,this,[=](){
         endInsertRows();
     });
+    connect(mList,&NotesList::preItemDeleted,this,[=](int index)
+    {
+        beginRemoveRows(QModelIndex(),index,index);
+    });
+    connect(mList,&NotesList::postItemDeleted,this,[=]()
+    {
+
+        endRemoveRows();
+    });
+    connect(mList,&NotesList::dataChange,this,
+            [=](int index){
+        QModelIndex mIndex=createIndex(index,0);
+       emit dataChanged(mIndex,mIndex);
+    });
+
 
     endResetModel();
 }
+
 //void NotesModel::swapData(int _from, int _to)
 //{
 //    qDebug() << _from << _to << endl;

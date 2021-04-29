@@ -41,3 +41,21 @@ void NotesList::appendItem(NotesItem item)
     emit postItemAppended();
 
 }
+
+void NotesList::deleteItem(NotesItem *item)
+{
+    int index=std::distance(mNotes->begin(),item);
+    emit preItemDeleted(index);
+
+    mNotes->erase(item);
+    emit postItemDeleted();
+
+
+}
+
+void NotesList::changeItem(NotesItem *now,NotesItem *after)
+{
+    now->description=after->description;
+    int index=std::distance(mNotes->begin(),now);
+    emit dataChange(index);
+}

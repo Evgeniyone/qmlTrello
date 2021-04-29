@@ -5,6 +5,7 @@ Popup {
     id: popup
     width: 300
     height: 250
+    property alias deleteButton: deleteButton
     property alias saveButton: saveButton
     property alias myNoteText: myNoteText
     background: Rectangle{
@@ -32,6 +33,7 @@ Popup {
 
 
         MyButton{
+            id: deleteButton
             height: 30
             text:qsTr("Удалить")
             anchors.left: parent.left

@@ -30,9 +30,16 @@ public:
 signals:
     void preItemAppended();
     void postItemAppended();
+    void preItemDeleted(int index);
+    void postItemDeleted();
+    void dataChange(int index);
+
 public slots:
     void appendItem();
     void appendItem(NotesItem item);
+    void deleteItem(NotesItem *item);
+    void changeItem(NotesItem *now,NotesItem *after);
+
 
 
 private:

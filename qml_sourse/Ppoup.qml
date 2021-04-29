@@ -4,6 +4,10 @@ PpoupForm {
     id: popup
 
     signal edFinish(string messages)
+    deleteButton.onClicked: {
+        httprequest.deleteNote(model.index)
+        popup.close()
+}
     saveButton.onClicked: {
 
         popup.edFinish(myNoteText.text)
@@ -12,5 +16,6 @@ PpoupForm {
 
 
     }
+
 
 }

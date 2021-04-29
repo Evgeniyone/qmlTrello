@@ -23,13 +23,12 @@ public:
     Q_INVOKABLE void autorization(QString login,QString password);
     Q_INVOKABLE void sendNote(int index);
     Q_INVOKABLE void sinchronize();
+    Q_INVOKABLE void deleteNote(int index);
 
     explicit HttpRequest(QObject *parent = nullptr);
     explicit HttpRequest(NotesList *list);
 
     NotesList *list() const;
-
-
 
     QString getToken() const;
 
@@ -38,8 +37,7 @@ private slots:
     void slotAutoriseFinished(QNetworkReply*);
     void sendNoteFinished(QNetworkReply*,NotesItem*);
     void sinchronizeFinished(QNetworkReply*);
-signals:
-//    void authorisationFinished(QNetworkReply*,NotesItem*);
+    void deleteNoteFinished(QNetworkReply*,NotesItem*);
 };
 
 #endif // HTTPREQUEST_H

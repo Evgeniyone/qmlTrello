@@ -16,7 +16,8 @@ public:
     Q_PROPERTY(NotesList *list READ list WRITE setList)
     explicit NotesModel(QObject *parent = nullptr);
     enum Roles{
-        id,description
+        id=Qt::UserRole+1
+        ,description
     };
 
     // Basic functionality:

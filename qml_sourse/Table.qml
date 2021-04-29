@@ -8,6 +8,8 @@ TableForm {
     roundButton.onClicked: {
         httprequest.sinchronize()
 
+           console.log(textNote.text)
+
     }
 
 

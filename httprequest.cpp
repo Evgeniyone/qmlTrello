@@ -28,12 +28,6 @@ void HttpRequest::sendNote(int index)
     QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
     QNetworkRequest request(QUrl(url.toString()+"cards"));
     
-    //    connect(
-    //                accessManager,
-    //                SIGNAL(finished(QNetworkReply*)),
-    //                this,
-    //                SLOT(sendNoteFinished(QNetworkReply*))
-    //                );
     
     QJsonObject auref;
     NotesItem *item=&(*notes->items())[index];
@@ -73,6 +67,14 @@ void HttpRequest::sendNote(int index)
     }
 }
 
+void HttpRequest::sendNoteFinished(QNetworkReply *reply,NotesItem*item)
+{
+    QByteArray data= reply->readAll();
+    item->id=data.toInt();
+    qDebug()<<item->id;
+
+}
+
 void HttpRequest::sinchronize()
 {
     QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
@@ -85,15 +87,6 @@ void HttpRequest::sinchronize()
                 );
     request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
     accessManager->get(request);
-
-}
-
-void HttpRequest::sendNoteFinished(QNetworkReply *reply,NotesItem*item)
-{
-    QByteArray data= reply->readAll();
-    item->id=data.toInt();
-    qDebug()<<item->id;
-
 }
 
 void HttpRequest::sinchronizeFinished(QNetworkReply *reply)
@@ -117,20 +110,41 @@ void HttpRequest::sinchronizeFinished(QNetworkReply *reply)
 
         });
         if (finded_node==end && status!="DELETED")
-                    notes->appendItem(item);
+        {
+            notes->appendItem(item);
+            qDebug()<<item.id;
+        }
+
         if (finded_node!=end && status!="DELETED")
-            finded_node->description=item.description;
+            notes->changeItem(finded_node,&item);
 
 
         if(status=="DELETED" && finded_node!=end)
         {
             qDebug()<<finded_node->id;
-            notes->items()->erase(finded_node);
-
-
+            notes->deleteItem(finded_node);
         }
     }
     timestamp=QDateTime::currentMSecsSinceEpoch();
+}
+
+void HttpRequest::deleteNote(int index)
+{
+    QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
+    NotesItem *item=&(*notes->items())[index];
+    QNetworkRequest request(QUrl(url.toString()+"cards/"+QString::number(item->id)));
+    connect(accessManager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply)
+    {
+        deleteNoteFinished(reply,item);
+    });
+
+    request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
+    accessManager->deleteResource(request);
+}
+
+void HttpRequest::deleteNoteFinished(QNetworkReply *, NotesItem *item)
+{
+    notes->deleteItem(item);
 }
 
 
