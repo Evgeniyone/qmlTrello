@@ -14,7 +14,7 @@ QVector<NotesItem>* NotesList::items()
     return mNotes;
 }
 
-bool NotesList::setItemAt(int index, const NotesItem &item)
+bool NotesList::setItemAt(int index,  NotesItem &item)
 {
     if(index<0 || index>mNotes->size())
         return false;
@@ -53,9 +53,9 @@ void NotesList::deleteItem(NotesItem *item)
 
 }
 
-void NotesList::changeItem(NotesItem *now,NotesItem *after)
+void NotesList::changeItem(int index,NotesItem &after)
 {
-    now->description=after->description;
-    int index=std::distance(mNotes->begin(),now);
+    (*mNotes)[index].description=after.description;
     emit dataChange(index);
+
 }

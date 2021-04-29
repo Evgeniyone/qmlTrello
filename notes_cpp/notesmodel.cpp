@@ -104,6 +104,7 @@ void NotesModel::setList(NotesList *list)
     connect(mList,&NotesList::dataChange,this,
             [=](int index){
         QModelIndex mIndex=createIndex(index,0);
+//       (*mList->items())[index].description="lh";
        emit dataChanged(mIndex,mIndex);
     });
 

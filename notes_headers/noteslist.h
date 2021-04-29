@@ -25,7 +25,8 @@ public:
     explicit NotesList(QObject *parent = nullptr);
     //explicit NotesList(NotesItem &item);
     QVector<NotesItem>* items();
-    bool setItemAt(int index,const NotesItem &Item);
+    bool setItemAt(int index,NotesItem &);
+    void changeItem(int index,NotesItem &after);
 
 signals:
     void preItemAppended();
@@ -34,11 +35,12 @@ signals:
     void postItemDeleted();
     void dataChange(int index);
 
+
 public slots:
     void appendItem();
     void appendItem(NotesItem item);
     void deleteItem(NotesItem *item);
-    void changeItem(NotesItem *now,NotesItem *after);
+
 
 
 

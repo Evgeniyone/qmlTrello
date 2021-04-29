@@ -71,6 +71,7 @@ void HttpRequest::sendNoteFinished(QNetworkReply *reply,NotesItem*item)
 {
     QByteArray data= reply->readAll();
     item->id=data.toInt();
+
     qDebug()<<item->id;
 
 }
@@ -109,6 +110,8 @@ void HttpRequest::sinchronizeFinished(QNetworkReply *reply)
             return (item.id==n_item.id?true:false);
 
         });
+        int index=finded_node-first;
+
         if (finded_node==end && status!="DELETED")
         {
             notes->appendItem(item);
@@ -116,7 +119,11 @@ void HttpRequest::sinchronizeFinished(QNetworkReply *reply)
         }
 
         if (finded_node!=end && status!="DELETED")
-            notes->changeItem(finded_node,&item);
+
+        {
+            notes->changeItem(index,item);
+
+        }
 
 
         if(status=="DELETED" && finded_node!=end)

@@ -21,8 +21,8 @@ Component {
         onPressed: held = true
 
         function setNoteText(message){
-            textNote.text=message
-            model.description=textNote.text
+//            textNote.text=message
+            model.description=message
         }
 
         function createObjecto()
@@ -71,6 +71,8 @@ Component {
                 anchors.topMargin: 5
                 anchors.leftMargin: 7
                 anchors.bottomMargin: 5
+
+
                 text: model.description
                 onContentHeightChanged: {
                     if(textNote.contentHeight>50)
