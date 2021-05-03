@@ -14,7 +14,7 @@ HttpRequest::HttpRequest(QObject *parent) : QObject(parent)
 
 HttpRequest::HttpRequest(NotesList *nlist):notes(nlist)
 {
-    url="http://192.168.31.104:8080/";
+    url="http://62.77.153.231:8888/";
     timestamp=0;
 }
 
