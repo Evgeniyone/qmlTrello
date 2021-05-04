@@ -6,6 +6,7 @@ Rectangle{
     width: 250
     color: "#ebecf0"
     radius: 10
+    property alias tableName: tableName
     property alias roundButton: roundButton
     property alias buttonAddNotes: buttonAddNotes
     property alias onHovered: onHovered

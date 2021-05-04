@@ -8,7 +8,7 @@ TableForm {
     roundButton.onClicked: {
         //httprequest.sinchronize();
     }
-
+    tableName.text:model.name
 
     rectangle.height: {
         var a=table.contentHeight+dragArea.height+onHovered.height;
@@ -23,7 +23,7 @@ TableForm {
 
         model: NotesModel {
             id:notes
-            list: notesList
+            list:model.list
         }
 
         delegate: Note{}

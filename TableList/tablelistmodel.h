@@ -11,9 +11,12 @@ class TableListModel : public QAbstractListModel
 
 public:
     enum Roles{
-        id=Qt::UserRole+1
-        ,name
+        id=Qt::UserRole+1,
+        name,
+        list
+
     };
+
     explicit TableListModel(QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;

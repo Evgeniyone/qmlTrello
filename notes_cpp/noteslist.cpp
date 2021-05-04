@@ -4,7 +4,6 @@
 NotesList::NotesList(QObject *parent) : QObject(parent)
 {
     mNotes=new QVector<NotesItem> ();
-//    mNotes.append({"",0,false});
 }
 
 
@@ -42,7 +41,16 @@ void NotesList::appendItem(NotesItem item)
 
 }
 
-void NotesList::deleteItem(NotesItem *item)
+void NotesList::deleteItem(int index)
+{
+    emit preItemDeleted(index);
+
+    mNotes->remove(index);
+    emit postItemDeleted();
+
+
+}
+void NotesList::deleteItem(NotesItem* item)
 {
     int index=std::distance(mNotes->begin(),item);
     emit preItemDeleted(index);

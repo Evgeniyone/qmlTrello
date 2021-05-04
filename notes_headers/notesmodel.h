@@ -36,7 +36,8 @@ public:
     virtual QHash<int,QByteArray> roleNames() const override;
 
     NotesList *list() const;
-    void setList(NotesList *list);
+    void setList(NotesList*);
+
 
 //    Q_INVOKABLE void swapData(int _from, int _to); дописать
 private:

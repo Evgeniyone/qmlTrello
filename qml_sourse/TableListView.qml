@@ -7,21 +7,13 @@ Rectangle {
     border.color: "black"
     border.width: 2
 
-    //    DelegateModel {
-    //        id: visualModel
-
-    //        model: TableListModel{
-
-    //        }
-
-    //        delegate: Table{}
-    //    }
 
     ListView{
         id:tables
         spacing: 4
         anchors.fill: parent
         model: TableListModel{
+            id: tablesModel
 
         }
         delegate: Table{

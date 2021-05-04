@@ -23,6 +23,7 @@ Component {
         function setNoteText(message){
 //            textNote.text=message
             model.description=message
+
         }
 
         function createObjecto()

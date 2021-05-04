@@ -106,10 +106,9 @@ void NotesModel::setList(NotesList *list)
         QModelIndex mIndex=createIndex(index,0);
         emit dataChanged(mIndex,mIndex);
     });
-
-
-    endResetModel();
 }
+
+
 
 //void NotesModel::swapData(int _from, int _to)
 //{

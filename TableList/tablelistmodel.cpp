@@ -6,6 +6,8 @@ TableListModel::TableListModel(QObject *parent)
     mList = new TableList ();
     mList->appendItem();
     mList->appendItem();
+    mList->appendItem();
+
 }
 
 
@@ -25,10 +27,7 @@ QVariant TableListModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
-    return QVariant();
-    if (!index.isValid())
-        return QVariant();
+
 
     TableItem item=mList->items()->at(index.row());
 
@@ -37,7 +36,10 @@ QVariant TableListModel::data(const QModelIndex &index, int role) const
         return QVariant(item.id);
     case Roles::name:
         return QVariant(item.name);
+    case Roles::list:
+        return QVariant::fromValue(item.list);
     }
+
     return QVariant();
 }
 
@@ -47,6 +49,7 @@ QHash<int, QByteArray> TableListModel::roleNames() const
     QHash<int,QByteArray> names;
     names[name]="name";
     names[id]="id";
+    names[list]="list";
     return names;
 }
 

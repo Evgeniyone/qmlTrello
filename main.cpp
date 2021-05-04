@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
 
 
     qmlRegisterType<NotesModel>("Notes",1,0,"NotesModel");
-    qmlRegisterUncreatableType<NotesList>("Notes", 1, 0, "NotesList",
-                                          QStringLiteral("NotesList should not be created in QML"));
+
     qmlRegisterType<TableListModel>("Tables",1,0,"TableListModel");
 
     NotesList notesList;
