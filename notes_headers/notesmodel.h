@@ -13,12 +13,14 @@ class NotesModel : public QAbstractListModel
 
 
 public:
-    Q_PROPERTY(NotesList *list READ list WRITE setList)
-    explicit NotesModel(QObject *parent = nullptr);
     enum Roles{
         id=Qt::UserRole+1
         ,description
     };
+
+    Q_PROPERTY(NotesList *list READ list WRITE setList)
+    explicit NotesModel(QObject *parent = nullptr);
+
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

@@ -7,6 +7,8 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        TableList/tablelist.cpp \
+        TableList/tablelistmodel.cpp \
         httprequest.cpp \
         main.cpp \
         notes_cpp/noteslist.cpp \
@@ -28,6 +30,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
+    TableList/tablelist.h \
+    TableList/tablelistmodel.h \
     httprequest.h \
     notes_headers/noteslist.h \
     notes_headers/notesmodel.h
