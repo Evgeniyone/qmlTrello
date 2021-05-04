@@ -4,6 +4,8 @@ TableListModel::TableListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     mList = new TableList ();
+    mList->appendItem();
+    mList->appendItem();
 }
 
 

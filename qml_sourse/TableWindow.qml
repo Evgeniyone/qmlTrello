@@ -7,8 +7,10 @@ ApplicationWindow {
     width: Screen.width
     height: Screen.height
 
-    Table{
+//    Table{
 
-    }
+//    }
+TableListView{
 
+}
 }

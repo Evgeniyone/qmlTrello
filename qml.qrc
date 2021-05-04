@@ -11,5 +11,6 @@
         <file>qml_sourse/Ppoup.qml</file>
         <file>qml_sourse/PpoupForm.ui.qml</file>
         <file>qml_sourse/MyButton.qml</file>
+        <file>qml_sourse/TableListView.qml</file>
     </qresource>
 </RCC>

@@ -6,7 +6,7 @@ import QtQuick 2.4
         roundButton.onClicked: {
             window.close()
             table_window.show()
-            httprequest.autorization(login_input.text,password_input.text)
+            //httprequest.autorization(login_input.text,password_input.text)
         }
 }
 

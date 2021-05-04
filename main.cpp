@@ -5,7 +5,7 @@
 #include "notes_headers/noteslist.h"
 #include "notes_headers/notesmodel.h"
 #include "httprequest.h"
-#include<vector>
+#include "TableList/tablelistmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<NotesModel>("Notes",1,0,"NotesModel");
     qmlRegisterUncreatableType<NotesList>("Notes", 1, 0, "NotesList",
                                           QStringLiteral("NotesList should not be created in QML"));
-
+    qmlRegisterType<TableListModel>("Tables",1,0,"TableListModel");
 
     NotesList notesList;
     HttpRequest request(&notesList);
