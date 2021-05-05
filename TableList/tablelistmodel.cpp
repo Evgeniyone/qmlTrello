@@ -4,8 +4,14 @@ TableListModel::TableListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     mList = new TableList ();
-    mList->appendItem();
-    mList->appendItem();
+    connect(mList,&TableList::preItemAppended,this,[=](){
+        const int index=mList->items()->size();
+        beginInsertRows(QModelIndex(),index,index);
+    });
+    connect(mList,&TableList::postItemAppended,this,[=](){
+        endInsertRows();
+    });
+
     mList->appendItem();
 
 }
@@ -52,6 +58,13 @@ QHash<int, QByteArray> TableListModel::roleNames() const
     names[list]="list";
     return names;
 }
+
+TableList *TableListModel::listik() const
+{
+    return mList;
+}
+
+
 
 
 bool TableListModel::setData(const QModelIndex &index, const QVariant &value, int role)

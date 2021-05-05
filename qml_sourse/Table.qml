@@ -11,9 +11,9 @@ TableForm {
     tableName.text:model.name
 
     rectangle.height: {
-        var a=table.contentHeight+dragArea.height+onHovered.height;
+        var a=table.contentHeight+tableName.height+onHovered.height;
         if (a>table_window.height)
-            return table_window.height;
+            return table_window.height-20;
         else return a;
     }
 
@@ -32,12 +32,10 @@ TableForm {
 
     table.model: visualModel
 
-    buttonAddNotes.onClicked: {
-
-        table.positionViewAtEnd()
+    buttonAddNotes.onClicked: {        
         notes.list.appendItem()
 
-
+        table.positionViewAtEnd()
     }
 }
 

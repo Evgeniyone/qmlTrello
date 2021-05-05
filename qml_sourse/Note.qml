@@ -18,10 +18,10 @@ Component {
 
         drag.target: held ? content : undefined
         drag.axis: Drag.YAxis
-        onPressed: held = true
+        onPressed: {held = true;dropaw.otherDraging=false}
 
         function setNoteText(message){
-//            textNote.text=message
+            //            textNote.text=message
             model.description=message
 
         }
@@ -44,7 +44,7 @@ Component {
             }
         }
 
-        onReleased: held = false
+        onReleased: {held = false;dropaw.otherDraging=true}
 
         Rectangle{
 
@@ -54,9 +54,11 @@ Component {
 
             radius: 3
             Drag.active: dragArea.held
+
             Drag.source: dragArea
             Drag.hotSpot.x: width / 2
             Drag.hotSpot.y: height / 2
+
 
             color: "white"
 
@@ -96,11 +98,17 @@ Component {
 
         DropArea {
             anchors { fill: parent; margins: 10 }
+//            Rectangle{
+//                anchors.fill: parent
+//                color: "blue"
+//            }
 
             onEntered: {
+
                 visualModel.items.move(
                             drag.source.DelegateModel.itemsIndex,
                             dragArea.DelegateModel.itemsIndex)
+
             }
         }
     }

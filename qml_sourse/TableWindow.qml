@@ -9,6 +9,6 @@ ApplicationWindow {
 
 
     TableListView{
-        y: 100
+
     }
 }
