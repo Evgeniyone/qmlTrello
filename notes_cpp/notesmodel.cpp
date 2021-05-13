@@ -81,6 +81,7 @@ NotesList *NotesModel::list() const
 void NotesModel::setList(NotesList *list)
 {
     beginResetModel();
+
     if(mList)
         mList->disconnect(this);
     mList = list;
@@ -89,23 +90,29 @@ void NotesModel::setList(NotesList *list)
         const int index=mList->items()->size();
         beginInsertRows(QModelIndex(),index,index);
     });
+
     connect(mList,&NotesList::postItemAppended,this,[=](){
         endInsertRows();
     });
+
     connect(mList,&NotesList::preItemDeleted,this,[=](int index)
     {
         beginRemoveRows(QModelIndex(),index,index);
     });
+
     connect(mList,&NotesList::postItemDeleted,this,[=]()
     {
 
         endRemoveRows();
     });
+
     connect(mList,&NotesList::dataChange,this,
             [=](int index){
         QModelIndex mIndex=createIndex(index,0);
         emit dataChanged(mIndex,mIndex);
     });
+
+    endResetModel();
 }
 
 

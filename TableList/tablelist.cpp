@@ -5,7 +5,6 @@
 TableList::TableList(QObject *parent) : QObject(parent)
 {
     mTables = new QVector<TableItem>();
-
 }
 
 QVector<TableItem> *TableList::items()
@@ -31,6 +30,14 @@ void TableList::appendItem()
     mTables->append(item);
     emit postItemAppended();
 }
+
+void TableList::appendItem(TableItem &item)
+{
+    emit preItemAppended();
+    mTables->append(item);
+    emit postItemAppended();
+}
+
 
 
 

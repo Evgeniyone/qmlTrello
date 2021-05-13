@@ -33,7 +33,7 @@ void NotesList::appendItem()
     emit postItemAppended();
 }
 
-void NotesList::appendItem(NotesItem item)
+void NotesList::appendItem(NotesItem &item)
 {
     emit preItemAppended();
     mNotes->append(item);

@@ -48,6 +48,7 @@ Component {
 //            }
             Table{
                 id: root
+
             }
 
             onEntered: {

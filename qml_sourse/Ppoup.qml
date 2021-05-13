@@ -12,7 +12,8 @@ PpoupForm {
     saveButton.onClicked: {
 
         popup.edFinish(myNoteText.text)
-
+        console.log(model.index)
+        console.log(root.indexOfTable)
         //httprequest.sendNote(model.index)
         popup.close()
 

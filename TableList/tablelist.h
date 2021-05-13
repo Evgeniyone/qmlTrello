@@ -23,8 +23,10 @@ public:
     explicit TableList(QObject *parent = nullptr);
     QVector<TableItem> *items();
     bool setItemAt(int index,TableItem &);
+
 public slots:
     void appendItem();
+    void appendItem(TableItem &item);
 signals:
     void preItemAppended();
     void postItemAppended();

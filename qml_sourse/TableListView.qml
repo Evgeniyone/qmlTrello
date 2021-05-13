@@ -24,6 +24,7 @@ Rectangle {
 
         model: TableListModel{
             id: tablesModel
+            list: tableList
 
         }
 

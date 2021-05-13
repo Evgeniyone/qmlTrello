@@ -18,13 +18,13 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<TableListModel>("Tables",1,0,"TableListModel");
 
-    NotesList notesList;
-    HttpRequest request(&notesList);
+    TableList list;
+    HttpRequest request(&list);
 
 
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty(QStringLiteral("notesList"),&notesList);
+    engine.rootContext()->setContextProperty(QStringLiteral("tableList"),&list);
     engine.rootContext()->setContextProperty(QStringLiteral("httprequest"),&request);
 
 

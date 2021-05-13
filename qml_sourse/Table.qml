@@ -5,6 +5,8 @@ import QtQml.Models 2.3
 
 TableForm {
     id:root
+
+    property int indexOfTable:  model.index
     roundButton.onClicked: {
         //httprequest.sinchronize();
     }

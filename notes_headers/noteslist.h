@@ -38,7 +38,7 @@ signals:
 
 public slots:
     void appendItem();
-    void appendItem(NotesItem item);
+    void appendItem(NotesItem &item);
     void deleteItem(int index);
     void deleteItem(NotesItem*);
 

@@ -1,19 +1,28 @@
 #include "tablelistmodel.h"
 
 TableListModel::TableListModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : QAbstractListModel(parent),mList(nullptr)
 {
-    mList = new TableList ();
+
+}
+
+void TableListModel::setListik(TableList *list)
+{
+    beginResetModel();
+    if(mList)
+        mList->disconnect(this);
+    mList = list;
+
     connect(mList,&TableList::preItemAppended,this,[=](){
         const int index=mList->items()->size();
         beginInsertRows(QModelIndex(),index,index);
     });
+
     connect(mList,&TableList::postItemAppended,this,[=](){
         endInsertRows();
     });
 
-    mList->appendItem();
-
+    endResetModel();
 }
 
 
