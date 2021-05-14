@@ -14,7 +14,7 @@ HttpRequest::HttpRequest(QObject *parent) : QObject(parent)
 
 HttpRequest::HttpRequest(TableList *nlist):tables(nlist)
 {
-    url="http://192.168.31.104:8080/";
+    url="http://62.77.153.231:8888/";
     timestamp=0;
 }
 
@@ -25,58 +25,64 @@ TableList *HttpRequest::list() const
 
 
 
-//void HttpRequest::sendNote(int index)
-//{
-//    QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
-//    QNetworkRequest request(QUrl(url.toString()+"cards"));
+void HttpRequest::sendNote(int indexOfNote,int indexOfTable)
+{
+    QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
+
+
+    TableItem *tableItem = &((*tables->items())[indexOfTable]);
+    NotesItem *noteItem=&(*tableItem->list->items())[indexOfNote];
+
+    QNetworkRequest request(QUrl(url.toString()+"cards"
+                                 +"/"+QString::number(tableItem->id)));
     
     
-//    QJsonObject auref;
-//    NotesItem *item=&(*notes->items())[index];
-//    connect(accessManager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply)
-//    {
-//        sendNoteFinished(reply,item);
-//    });
+    QJsonObject auref;
 
-//    auref["name"]=item->description;
-//    auref["numberOfList"]=1;
-//    auref["pos"]=1;
+    connect(accessManager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply)
+    {
+        sendNoteFinished(reply,noteItem);
+    });
+
+    auref["name"]=noteItem->description;
+
     
-//    request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
-//    request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
-//    QJsonDocument doc(auref);
-//    QByteArray data = doc.toJson();
-//    if(item->status==Status::Created)
-//    {
-//        accessManager->post(request,data);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+    request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
+    QJsonDocument doc(auref);
+    QByteArray data = doc.toJson();
+    if(noteItem->status==Status::Created)
+    {
+        accessManager->post(request,data);
 
-//        item->status=Status::Sended;
+        noteItem->status=Status::Sended;
 
-//    }
-//    else
-//    {
+    }
+    else
+    {
 
-//        QString m=url.toString()+"cards/"+QString::number(item->id);
-//        qDebug()<<m;
-//        QNetworkRequest request(QUrl(m.toUtf8()));
-//        request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
-//        request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
-//        QJsonObject auref;
-//        auref["name"]=item->description;
-//        QJsonDocument doc(auref);
-//        QByteArray data = doc.toJson();
-//        accessManager->put(request,data);
-//    }
-//}
+        QString m=url.toString()+"cards/"+QString::number(tableItem->id)
+                +"/"+QString::number(noteItem->id);
+        qDebug()<<m;
+        QNetworkRequest request(QUrl(m.toUtf8()));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+        request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
+        QJsonObject auref;
+        auref["name"]=noteItem->description;
+        QJsonDocument doc(auref);
+        QByteArray data = doc.toJson();
+        accessManager->put(request,data);
+    }
+}
 
-//void HttpRequest::sendNoteFinished(QNetworkReply *reply,NotesItem*item)
-//{
-//    QByteArray data= reply->readAll();
-//    item->id=data.toInt();
+void HttpRequest::sendNoteFinished(QNetworkReply *reply,NotesItem*item)
+{
+    QByteArray data= reply->readAll();
+    item->id=data.toInt();
 
-//    qDebug()<<item->id;
+    qDebug()<<item->id;
 
-//}
+}
 
 //void HttpRequest::sinchronize()
 //{
@@ -137,24 +143,29 @@ TableList *HttpRequest::list() const
 //    timestamp=QDateTime::currentMSecsSinceEpoch();
 //}
 
-//void HttpRequest::deleteNote(int index)
-//{
-//    QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
-//    NotesItem *item=&(*notes->items())[index];
-//    QNetworkRequest request(QUrl(url.toString()+"cards/"+QString::number(item->id)));
-//    connect(accessManager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply)
-//    {
-//        deleteNoteFinished(reply,item);
-//    });
+void HttpRequest::deleteNote(int indexOfNote,int indexOfTable)
+{
+    QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
+    TableItem *tableItem = &((*tables->items())[indexOfTable]);
+    NotesItem *noteItem=&(*tableItem->list->items())[indexOfNote];
 
-//    request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
-//    accessManager->deleteResource(request);
-//}
+    QNetworkRequest request(QUrl(url.toString()+"cards/"
+                                 +QString::number(tableItem->id)
+                                 +"/"+QString::number(noteItem->id)));
 
-//void HttpRequest::deleteNoteFinished(QNetworkReply *, NotesItem *item)
-//{
-//    notes->deleteItem(item);
-//}
+    connect(accessManager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply)
+    {
+        deleteNoteFinished(reply,indexOfTable,indexOfNote);
+    });
+
+    request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
+    accessManager->deleteResource(request);
+}
+
+void HttpRequest::deleteNoteFinished(QNetworkReply *, int indexOfTable,int indexOfNote)
+{
+    (*tables->items())[indexOfTable].list->deleteItem(indexOfNote);
+}
 
 
 
@@ -180,6 +191,8 @@ void HttpRequest::autorization(QString login,QString password)
     accessManager->post(request,data);
 
 }
+
+
 
 void HttpRequest::slotAutoriseFinished(QNetworkReply *reply)
 {
@@ -225,6 +238,7 @@ void HttpRequest::slotFinished(QNetworkReply *reply)
             NotesItem mItem;
             mItem.description=object.value("name").toString();
             mItem.id=object.value("id").toInt();
+
 
             item.list->appendItem(mItem);
         }

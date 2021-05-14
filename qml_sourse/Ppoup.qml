@@ -5,8 +5,8 @@ PpoupForm {
 
     signal edFinish(string messages)
     deleteButton.onClicked: {
-        //httprequest.deleteNote(model.index)
-        notes.list.deleteItem(model.index)
+        httprequest.deleteNote(model.index,root.indexOfTable)
+//        notes.list.deleteItem(model.index,root.indexOfTable)
         popup.close()
 }
     saveButton.onClicked: {
@@ -14,7 +14,7 @@ PpoupForm {
         popup.edFinish(myNoteText.text)
         console.log(model.index)
         console.log(root.indexOfTable)
-        //httprequest.sendNote(model.index)
+        httprequest.sendNote(model.index,root.indexOfTable)
         popup.close()
 
 

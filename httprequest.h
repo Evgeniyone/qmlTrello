@@ -22,9 +22,9 @@ public:
     Q_PROPERTY(TableList *list READ list)
     Q_INVOKABLE void getHttpRequst();
     Q_INVOKABLE void autorization(QString login,QString password);
-//    Q_INVOKABLE void sendNote(int index);
-//    Q_INVOKABLE void sinchronize();
-//    Q_INVOKABLE void deleteNote(int index);
+    Q_INVOKABLE void sendNote(int indexOfNote,int indexOfTable);
+    //    Q_INVOKABLE void sinchronize();
+    Q_INVOKABLE void deleteNote(int indexOfNote,int indexOfTable);
 
     explicit HttpRequest(QObject *parent = nullptr);
     explicit HttpRequest(TableList *list);
@@ -36,9 +36,9 @@ public:
 private slots:
     void slotFinished(QNetworkReply*);
     void slotAutoriseFinished(QNetworkReply*);
-//    void sendNoteFinished(QNetworkReply*,NotesItem*);
-//    void sinchronizeFinished(QNetworkReply*);
-//    void deleteNoteFinished(QNetworkReply*,NotesItem*);
+    void sendNoteFinished(QNetworkReply*,NotesItem*);
+    //    void sinchronizeFinished(QNetworkReply*);
+    void deleteNoteFinished(QNetworkReply*,int ,int);
 };
 
 #endif // HTTPREQUEST_H
