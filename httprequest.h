@@ -23,7 +23,7 @@ public:
     Q_INVOKABLE void getHttpRequst();
     Q_INVOKABLE void autorization(QString login,QString password);
     Q_INVOKABLE void sendNote(int indexOfNote,int indexOfTable);
-    //    Q_INVOKABLE void sinchronize();
+    Q_INVOKABLE void sinchronize();
     Q_INVOKABLE void deleteNote(int indexOfNote,int indexOfTable);
 
     explicit HttpRequest(QObject *parent = nullptr);
@@ -37,7 +37,7 @@ private slots:
     void slotFinished(QNetworkReply*);
     void slotAutoriseFinished(QNetworkReply*);
     void sendNoteFinished(QNetworkReply*,NotesItem*);
-    //    void sinchronizeFinished(QNetworkReply*);
+    void sinchronizeFinished(QNetworkReply*);
     void deleteNoteFinished(QNetworkReply*,int ,int);
 };
 

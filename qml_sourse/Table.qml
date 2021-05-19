@@ -8,7 +8,7 @@ TableForm {
 
     property int indexOfTable:  model.index
     roundButton.onClicked: {
-        //httprequest.sinchronize();
+        httprequest.sinchronize();
     }
     tableName.text:model.name
 
