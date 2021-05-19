@@ -190,50 +190,7 @@ void HttpRequest::sinchronizeFinished(QNetworkReply *reply)
     }
     timestamp=QDateTime::currentMSecsSinceEpoch();
 }
-//void HttpRequest::sinchronizeFinished(QNetworkReply *reply)
-//{
-//    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-//    QJsonArray array=document.array();
-//    reply->rawHeader(QByteArray("Authorization"));
 
-//    auto first=notes->items()->begin();
-//    auto end = notes->items()->end();
-//    for(auto note:array){
-//        NotesItem item;
-//        QJsonObject subtree = note.toObject();
-//        item.description=subtree.value("name").toString();
-//        item.id=subtree.value("id").toInt();
-//        QString status=subtree.value("status").toString();
-//        auto finded_node=std::find_if
-//                (first, end, [=](NotesItem n_item)
-//        {
-//            return (item.id==n_item.id?true:false);
-
-//        });
-//        int index=finded_node-first;
-
-//        if (finded_node==end && status!="DELETED")
-//        {
-//            notes->appendItem(item);
-//            qDebug()<<item.id;
-//        }
-
-//        if (finded_node!=end && status!="DELETED")
-
-//        {
-//            notes->changeItem(index,item);
-
-//        }
-
-
-//        if(status=="DELETED" && finded_node!=end)
-//        {
-//            qDebug()<<finded_node->id;
-//            notes->deleteItem(finded_node);
-//        }
-//    }
-//    timestamp=QDateTime::currentMSecsSinceEpoch();
-//}
 
 void HttpRequest::deleteNote(int indexOfNote,int indexOfTable)
 {
@@ -254,12 +211,12 @@ void HttpRequest::deleteNote(int indexOfNote,int indexOfTable)
     accessManager->deleteResource(request);
 }
 
+
+
 void HttpRequest::deleteNoteFinished(QNetworkReply *, int indexOfTable,int indexOfNote)
 {
     (*tables->items())[indexOfTable].list->deleteItem(indexOfNote);
 }
-
-
 
 void HttpRequest::autorization(QString login,QString password)
 {
@@ -338,6 +295,39 @@ void HttpRequest::slotFinished(QNetworkReply *reply)
 
     }
 
+}
+void HttpRequest::createTable()
+{
+    QNetworkAccessManager *accessManager=new QNetworkAccessManager (this);
+
+    TableItem tableItem;
+
+
+    QNetworkRequest request(QUrl(url.toString()+"cards"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+    request.setRawHeader(QByteArray("Authorization"),m_token.toUtf8());
+
+    connect(accessManager, &QNetworkAccessManager::finished, this, [&tableItem,this](QNetworkReply *reply)
+    {
+
+        createTableFinished(reply,tableItem);
+    });
+
+    QJsonObject auref;
+    auref["name"]="tableItem.name";
+    QJsonDocument doc(auref);
+    QByteArray data = doc.toJson();
+    accessManager->post(request,data);
+}
+
+void HttpRequest::createTableFinished(QNetworkReply *reply, TableItem &item)
+{
+    QByteArray data= reply->readAll();
+    item.id=data.toInt();
+    item.list=new NotesList();
+    item.name="change me";
+    tables->appendItem(item);
+    qDebug()<<item.id;
 }
 
 QString HttpRequest::getToken() const

@@ -16,7 +16,7 @@ Rectangle {
         text: qsTr("Добавить Таблицу")
         anchors.leftMargin: 50
         anchors.left:tables.right
-        onClicked: tablesModel.list.appendItem()
+        onClicked:httprequest.createTable()
     }
 
     DelegateModel {

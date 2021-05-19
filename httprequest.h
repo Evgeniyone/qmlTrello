@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE void sendNote(int indexOfNote,int indexOfTable);
     Q_INVOKABLE void sinchronize();
     Q_INVOKABLE void deleteNote(int indexOfNote,int indexOfTable);
+    Q_INVOKABLE void createTable();
 
     explicit HttpRequest(QObject *parent = nullptr);
     explicit HttpRequest(TableList *list);
@@ -39,6 +40,7 @@ private slots:
     void sendNoteFinished(QNetworkReply*,NotesItem*);
     void sinchronizeFinished(QNetworkReply*);
     void deleteNoteFinished(QNetworkReply*,int ,int);
+    void createTableFinished(QNetworkReply*, TableItem &);
 };
 
 #endif // HTTPREQUEST_H
